@@ -11,31 +11,30 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130421224909) do
+ActiveRecord::Schema.define(:version => 20130422042705) do
 
   create_table "graphs", :force => true do |t|
-    t.integer  "node_id"
-    t.integer  "link_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
   create_table "links", :force => true do |t|
     t.string   "name"
-    t.integer  "upstream_node_id"
-    t.integer  "downstream_node_id"
     t.integer  "graph_id"
-    t.datetime "created_at",         :null => false
-    t.datetime "updated_at",         :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "links_nodes", :id => false, :force => true do |t|
+    t.integer "link_id"
+    t.integer "node_id"
   end
 
   create_table "nodes", :force => true do |t|
     t.string   "name"
-    t.integer  "upstream_link_id"
-    t.integer  "downstream_link_id"
     t.integer  "graph_id"
-    t.datetime "created_at",         :null => false
-    t.datetime "updated_at",         :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
 end

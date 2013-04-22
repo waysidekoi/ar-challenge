@@ -1,9 +1,22 @@
 class Node < ActiveRecord::Base
-  attr_accessible :name, :downstream_link_id, :upstream_link_id, :graph_id
+  attr_accessible :name
 
-  has_one :upstream_link_id, :class_name => "Link"
-  has_one :downstream_link_id, :class_name => "Link"
   belongs_to :graph
+  has_and_belongs_to_many :links
 
-  validates_uniqueness_of :upstream_link_id, :scope => :downstream_link_id
+
+  def parent_and_children_nodes
+    # find the parent
+    self.links #both parents
+
+    mom_and_dad = self.links
+    
+    # find the nodes of the parent
+    mom_and_dad.map do |link|
+      link.nodes.where("node_id != ?", self.id)
+    end.flatten.map do |node|
+      node.name
+    end
+
+  end
 end
